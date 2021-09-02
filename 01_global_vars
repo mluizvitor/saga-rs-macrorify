@@ -1,0 +1,71 @@
+// Basic vars to build click params
+var d_timeout
+var d_hold = 175
+var d_delay = 50
+var d_wait = 500
+var d_rclick = 16
+
+// Message Settings
+var dev_screenH = Env.deviceH() / 7
+
+fun message_index(position) {
+  return OnScreenText(16, dev_screenH + (64 * position), 1080 / 3 * 2, -1).setTextColor("#CCFFFFFF").noScale()
+
+}
+
+// Defining d_timeout value
+var speed_mode_console = message_index(1)
+if (speed_mode == 0) {
+  d_timeout = 1000
+  speed_mode_console.setText("‣ Slow mode")
+} else {
+  d_timeout = 350
+  speed_mode_console.setText("‣ Fast mode")
+}
+speed_mode_console.show()
+
+// Basic click and find params
+var click_params = CParam(1, d_hold, d_delay, d_wait, d_rclick)
+
+var find_params = FParam(d_timeout, 3.0, 0.8)
+var find_params2 = FParam(d_timeout / 2, 3.0, 0.8)
+
+
+// Energy Configs
+var energy_ammount
+var energy_console = message_index(0)
+
+if (energy_rmode == 0) {
+  energy_console.setText("‣ Not using Stamina Potions")
+
+} else if (energy_rmode == 1) {
+  energy_ammount = 3
+
+} else if (energy_rmode == 2) {
+  energy_ammount = 6
+
+} else if (energy_rmode == 3) {
+  energy_ammount = 10
+
+} else if (energy_rmode == 4) {
+  energy_ammount = 15
+
+} else {
+  energy_console.setText("‣ Using MAX Stamina Potions")
+
+}
+
+if (energy_ammount) energy_console.setText("‣ Using " + energy_ammount + " Stamina Potions")
+energy_console.show()
+
+
+// Finish macro function
+fun finish_macro(msg) {
+  if (Sys.sdk() >= 28) {
+    Sys.globalAction("screenshot")
+  }
+  wait(3000)
+  Sys.alert(msg)
+  Sys.noti()
+  Sys.stop()
+}

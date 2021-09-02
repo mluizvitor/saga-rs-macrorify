@@ -1,0 +1,9 @@
+var confirmation_region = Region.macroReg().setX(270).setY(1350).setW(540).setH(1050)
+
+fun confirmations() {
+  wait(1000)
+  var confirm_button = confirmation_region.clickAny(["btn_ok", "btn_close"], find_params2)
+
+  if (confirm_button) confirmations()
+
+}

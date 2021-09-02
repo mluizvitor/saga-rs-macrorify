@@ -1,0 +1,43 @@
+var expedition_region = Region.macroReg().setX(270).setY(1950).setW(540).setH(450)
+var exp_ticket_region = Region.macroReg().setX(540).setY(1050).setW(540).setH(300)
+var exp_complete_region = Region.macroReg().setX(270).setY(150).setW(540).setH(300)
+
+
+fun expeditions() {
+  var exp_ticket_button = exp_ticket_region.clickAny(["btn_ticket", "btn_ticket2"], FParam(4000, 3.0, 0.6), click_params)
+  if (exp_ticket_button) {
+    retry_connection()
+    wait(1000)
+
+    var exp_return_button = retry_stm_exp_region.find("btn_yes", FParam(4000, 3.0, 0.6))
+    if (exp_return_button) {
+      exp_return_button.click(click_params)
+      retry_connection()
+      wait(1000)
+
+      var exp_complete_detect = exp_complete_region.find("expedition_finished", find_params)
+      if (exp_complete_detect) {
+        click(Point(1080 / 2, 2400 - 300), CParam.hold(45).delay(1500).waitNext(200).random(96).repeat(2))
+        wait(1000)
+
+        confirmations()
+        return null
+      }
+    }
+  } else {
+    confirmations()
+    return null
+  }
+}
+
+fun expedition_detector() {
+  var expedition_button = expedition_region.clickAny(["expedition_btn_begin", "expedition_btn_return"], find_params, CParam(2, d_hold, d_delay, d_wait * 6, d_rclick))
+
+  if (expedition_button) {
+    reset_idle()
+    expeditions()
+
+    reset_retry_connection()
+
+  }
+}

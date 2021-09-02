@@ -1,0 +1,12 @@
+fun main() {
+  confirmations()
+  rematch()
+  retry_connection()
+  detect_battle()
+
+  return null
+}
+
+while (true) {
+  main()
+}

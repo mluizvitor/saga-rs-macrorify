@@ -1,0 +1,58 @@
+var normal_potion_region = Region.macroReg().setX(540).setY(750).setW(540).setH(300)
+var event_potion_region = Region.macroReg().setX(540).setY(1650).setW(540).setH(300)
+var stm_selector_region = Region.macroReg().setX(540).setY(1200).setW(540).setH(450)
+
+fun recover_stepper(stamina_n) {
+  var counter_selector = stm_selector_region.find("btn_counter", find_params)
+
+  var counter_click_params = CParam(stamina_n - 1, d_hold, d_delay, 95, 8)
+  if (counter_selector) {
+    counter_selector.click(counter_click_params)
+
+  }
+}
+
+fun recover_stamina() {
+  //first check if energy recovery mode is "Don't use"
+  if (energy_rmode == 0) Sys.stop()
+
+  // accept to recover stamina
+  var stm_accept_button = retry_stm_exp_region.find("btn_yes", find_params)
+  if (stm_accept_button) {
+    stm_accept_button.click(click_params)
+
+    wait(2000)
+
+    // click the "use" button
+    var event_potion = event_potion_region.find("btn_use", find_params)
+    var normal_potion = normal_potion_region.find("btn_use", find_params)
+
+    if (event_potion) {
+      event_potion.click(click_params)
+
+    } else if (normal_potion) {
+      normal_potion.click(click_params)
+
+    }
+
+    // select recover ammout
+    if (energy_rmode == 5) {
+      var max_selector = stm_selector_region.find("btn_max", find_params)
+      if (max_selector) max_selector.click(click_params)
+
+    } else {
+      recover_stepper(energy_ammount)
+
+    }
+
+    // confirm potion use
+    var recover_button = event_potion_region.find("btn_recover", find_params)
+    if (recover_button) recover_button.click(click_params)
+
+    // call confirmations
+    confirmations()
+
+  }
+}
+
+

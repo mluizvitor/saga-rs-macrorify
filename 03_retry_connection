@@ -1,0 +1,29 @@
+var retry_stm_exp_region = Region.macroReg().setX(540).setY(1350).setW(540).setH(300)
+var retry_console = message_index(4)
+
+var n_attempts = 0
+
+fun retry_connection() {
+  var retry_button = retry_stm_exp_region.find("btn_retry", find_params2)
+
+  if (retry_button) {
+    retry_button.click(click_params)
+
+    if (n_attempts >= 10) {
+      finish_macro("Macro had to stop due to several failed attempts to reconnect.")
+    }
+
+    n_attempts = n_attempts + 1
+    retry_console.setText("‣ Attempt to reconnect " + n_attempts + " of 10").show()
+
+    wait(5000)
+    retry_connection()
+
+  }
+}
+
+fun reset_retry_connection() {
+  n_attempts = 0
+  retry_console.off()
+
+}

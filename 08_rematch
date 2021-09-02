@@ -1,0 +1,34 @@
+var rematch_region = Region.macroReg().setX(0).setY(1950).setW(540).setH(450)
+var rematch_console = message_index(2)
+
+var rematch_clicks = 0
+
+fun rematch() {
+  var rematch_button = rematch_region.find("btn_rematch", find_params)
+  if (rematch_button) {
+    rematch_button.click(click_params)
+
+    rematch_clicks = rematch_clicks + 1
+
+    rematch_console.setText("‣ Number of Rematches: " + rematch_clicks)
+    rematch_console.show()
+
+    reset_retry_connection()
+    reset_idle()
+
+    var insufficient_stamina_region = Region.macroReg().setX(270).setY(450).setW(540).setH(600)
+    var result = insufficient_stamina_region.find("insufficient_stamina_label", find_params)
+    if (result) {
+      rematch_clicks = rematch_clicks - 1
+      recover_stamina()
+      wait(500)
+      rematch()
+    }
+
+    var rematch_item = retry_stm_exp_region.find("btn_yes", find_params)
+    if (rematch_item) rematch_item.click(click_params)
+  } else {
+    expedition_detector()
+
+  }
+}

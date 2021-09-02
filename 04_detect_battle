@@ -1,0 +1,25 @@
+var detect_battle_region = Region.macroReg().setX(810).setY(0).setW(270).setH(450)
+var battle_stepper = 0
+
+fun detect_battle() {
+  Cache.region()
+  var detect_battle = detect_battle_region.find("btn_battle", find_params2)
+  if (detect_battle) {
+
+    if (battle_stepper == 0) {
+      click(Point(1080 / 2, 2400 / 3), click_params, CParam.random(96))
+      battle_stepper = 1
+    } else {
+      battle_stepper = 0
+    }
+
+    reset_idle()
+    retry_connection()
+
+  } else {
+    idle_watcher()
+
+  }
+
+  Cache.regionOff()
+}
