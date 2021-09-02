@@ -5,14 +5,14 @@ var idle_counter = 0
 
 fun idle_watcher() {
 
-  idle_console.setText("‣ Idle check " + (idle_counter + 1) + " of 15")
-  idle_console.show()
-
-  idle_counter = idle_counter + 1
-
   if (idle_counter >= 15) {
     finish_macro("Macro stopped because there were no battles or expeditions running.")
   }
+
+  idle_counter = idle_counter + 1
+
+  idle_console.setText("‣ Idle check " + idle_counter + " of 15")
+  idle_console.show()
 
 }
 
